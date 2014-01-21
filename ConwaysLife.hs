@@ -14,7 +14,7 @@ emptyUniverse :: Universe
 emptyUniverse = Universe []
 
 liveCells :: Universe -> [Position]
-liveCells _ = []
+liveCells (Universe cells) = cells
 
 isCellAlive :: Position -> Universe -> Bool
 isCellAlive pos (Universe cells) = elem pos cells

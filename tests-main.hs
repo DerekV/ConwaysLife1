@@ -18,6 +18,9 @@ tests = [
   [
     testCase "A empty universe is created with no live cells"
     (assert $ null $ liveCells emptyUniverse),
+    testCase "A universe seeded with some cells has those cells as alive"
+    (liveCells (Universe [Position 0 1, Position 2 2 ])
+     @?= [Position 0 1, Position 2 2]),
     testGroup "A position is defined by an ordered pair of integers"
     [
       testCase "origin = origin" ((Position 0 0) @=? (Position 0 0)),
