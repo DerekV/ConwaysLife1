@@ -35,13 +35,26 @@ tests = [
       testCase "We can create a universe that only has a living cell at origin"
       ( assert
         $ isCellAlive (Position 0 0)
-        $ setCellAlive (Position 0 0) emptyUniverse )
+        $ setCellAlive (Position 0 0) emptyUniverse ),
+      testCase "Regression, setting -2 1 as alive"
+      ( assert
+        $ isCellAlive (Position (-2) 1)
+        $ setCellAlive (Position (-2) 1) emptyUniverse ),
+      testProperty "If i set a cell as alive, that cell is indeed alive when I look at"
+      ( pCheckCellSetAlive )
     ]
   ]]
 
 pAllCellsDead :: Universe -> Position -> Bool
 pAllCellsDead universe position =
   not $ isCellAlive position universe
+
+pCheckCellSetAlive :: Position -> Bool
+pCheckCellSetAlive pos =
+  let newUniverse = setCellAlive pos emptyUniverse
+      in
+   isCellAlive pos newUniverse
+
 
 main :: IO ()
 main = defaultMain tests

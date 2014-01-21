@@ -20,4 +20,4 @@ isCellAlive :: Position -> Universe -> Bool
 isCellAlive pos (Universe cells) = elem pos cells
 
 setCellAlive :: Position -> Universe -> Universe
-setCellAlive _ _ = Universe [Position 0 0]
+setCellAlive pos (Universe cells) = Universe (pos : cells)
