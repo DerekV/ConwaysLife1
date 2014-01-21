@@ -10,9 +10,11 @@ tests = [
   testGroup "Universe (Model tests)"
   [
     testCase "A universe is created with no live cells"
-    (assert $ null $ liveCells (Universe))
-  ]
-        ]
+    (assert $ null $ liveCells (Universe)),
+    testCase "A cell has a position, position has identity and equivlence"
+    (let position = Position in
+      getPosition (Cell position) @=? position )
+  ]]
 
 
 main :: IO ()
