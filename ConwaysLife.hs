@@ -6,7 +6,7 @@ module ConwaysLife
         getPosition)
        where
 
-data Position = Position deriving (Eq, Show)
+data Position = Position Integer Integer deriving (Eq, Show)
 data Universe = Universe
 data Cell = Cell Position
 
@@ -14,4 +14,4 @@ liveCells :: Universe -> [Cell]
 liveCells _ = []
 
 getPosition :: Cell -> Position
-getPosition _ = Position
+getPosition _ = Position 0 0

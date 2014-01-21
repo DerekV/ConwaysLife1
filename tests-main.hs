@@ -12,8 +12,15 @@ tests = [
     testCase "A universe is created with no live cells"
     (assert $ null $ liveCells (Universe)),
     testCase "A cell has a position, position has identity and equivlence"
-    (let position = Position in
-      getPosition (Cell position) @=? position )
+    (let position = (Position 0 0) in
+      getPosition (Cell position) @=? position ),
+    testGroup "A position is defined by an ordered pair of integers"
+    [
+      testCase "origin = origin" ((Position 0 0) @=? (Position 0 0)),
+      testCase "42,-7 = 42,-7"   ((Position 42 (-7)) @=? (Position 42 (-7))),
+      testCase "mirrored not equal"
+      (assert $ not $ (Position 42 (-7)) == (Position 42 7))
+    ]
   ]]
 
 
