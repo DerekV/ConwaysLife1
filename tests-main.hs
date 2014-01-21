@@ -9,15 +9,15 @@ import Test.Framework.Providers.HUnit
 import Test.Framework.Providers.QuickCheck
 import ConwaysLife
 
+instance Test.QuickCheck.Arbitrary Position where
+  arbitrary = liftM2 Position arbitrary arbitrary
+
 tests :: [Test.Framework.Test]
 tests = [
   testGroup "Universe (Model tests)"
   [
-    testCase "A universe is created with no live cells"
+    testCase "A empty universe is created with no live cells"
     (assert $ null $ liveCells emptyUniverse),
-    testCase "A cell has a position, position has identity and equivlence"
-    (let position = (Position 0 0) in
-      getPosition (Cell position) @=? position ),
     testGroup "A position is defined by an ordered pair of integers"
     [
       testCase "origin = origin" ((Position 0 0) @=? (Position 0 0)),
@@ -35,9 +35,6 @@ tests = [
         $ setCellAlive (Position 0 0) emptyUniverse )
     ]
   ]]
-
-instance Test.QuickCheck.Arbitrary Position where
-  arbitrary = liftM2 Position arbitrary arbitrary
 
 pAllCellsDead :: Universe -> Position -> Bool
 pAllCellsDead universe position =

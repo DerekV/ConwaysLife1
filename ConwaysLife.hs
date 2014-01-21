@@ -1,29 +1,23 @@
 module ConwaysLife
        (Universe (Universe),
-        Cell (Cell),
         Position (Position),
         emptyUniverse,
         liveCells,
-        getPosition,
         isCellAlive,
         setCellAlive)
        where
 
 data Position = Position Integer Integer deriving (Eq, Show)
-data Universe = Universe [Cell]
-data Cell = Cell Position deriving (Eq)
+data Universe = Universe [Position]
 
 emptyUniverse :: Universe
 emptyUniverse = Universe []
 
-liveCells :: Universe -> [Cell]
+liveCells :: Universe -> [Position]
 liveCells _ = []
 
-getPosition :: Cell -> Position
-getPosition _ = Position 0 0
-
 isCellAlive :: Position -> Universe -> Bool
-isCellAlive pos (Universe cells) = elem (Cell pos) cells
+isCellAlive pos (Universe cells) = elem pos cells
 
 setCellAlive :: Position -> Universe -> Universe
-setCellAlive _ _ = Universe [Cell $ Position 0 0]
+setCellAlive _ _ = Universe [Position 0 0]
