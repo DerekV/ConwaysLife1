@@ -48,6 +48,7 @@ cabal-version:       >=1.10
 Library
   exposed-modules:      ConwaysLife
   build-depends:        base,
+                        containers,
                         multiset
   default-language:     Haskell2010
 
@@ -80,5 +81,6 @@ Test-Suite ConwaysLifeTests
                        test-framework >=0.8.0.3,
                        test-framework-hunit,
                        test-framework-quickcheck,
+                       containers,
                        multiset
   default-language:    Haskell2010
