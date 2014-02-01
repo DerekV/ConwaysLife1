@@ -24,7 +24,7 @@ tests =
         ( assert $ null $ liveCells emptyUniverse),
         testCase "A universe seeded with some cells has those cells as alive"
         ( ( liveCells $ universeWithLiveCells [ Position 0 1, Position 2 2 ] )
-         @?= [Position 0 1, Position 2 2]) ,
+          @?= [Position 0 1, Position 2 2]) ,
         testGroup "A position is defined by an ordered pair of integers"
         [
           testCase "origin = origin" ((Position 0 0) @=? (Position 0 0)),
@@ -55,12 +55,12 @@ tests =
         testCase "Three seperated cells around origin to one at origin"
         ( assert
           ( ( liveCells $
-            nextGen $
-            universeWithLiveCells [ Position   0    1,
-                                    Position (-1) (-1),
-                                    Position   1  (-1)  ] )
-          ==
-          ( liveCells $ justOriginCellAlive ))),
+              nextGen $
+              universeWithLiveCells [ Position   0    1,
+                                      Position (-1) (-1),
+                                      Position   1  (-1)  ] )
+            ==
+            ( liveCells $ justOriginCellAlive ))),
         testCase "Three vertically stacked yeilds three horizontally stacked"
         ( assert
           ( ( liveCells $ nextGen $
@@ -72,8 +72,12 @@ tests =
               Position   0   0,
               Position   1   0 ] ) ),
         testCase "Overcrowding"
-        ( assert $ not $ isCellAlive (Position 0 0) $ nextGen $
-        universeWithLiveCells $ Position <$> [-1 .. 1] <*> [-1 .. 1] )
+        ( assert $ not $ isCellAlive (Position 0 0) $
+          nextGen $ just3by3Square ),
+        testCase "The 3 by 3 square after 6 iterations"
+        ( assertEqual ""
+          whatTheSquareBecomesAfter6
+          (( iterate nextGen just3by3Square ) !! 6 ))
       ]
     ]
   ]
@@ -90,6 +94,17 @@ pCheckCellSetAlive pos =
   let newUniverse = setCellAlive pos emptyUniverse
       in
    isCellAlive pos newUniverse
+
+just3by3Square :: Universe
+just3by3Square = universeWithLiveCells $ Position <$> [-1 .. 1] <*> [-1 .. 1]
+
+whatTheSquareBecomesAfter6 :: Universe
+whatTheSquareBecomesAfter6 =
+  universeWithLiveCells
+  [ Position 0 4, Position 0 3, Position 0 2,
+    Position 0 (-4), Position 0 (-3), Position 0 (-2),
+    Position 2 0, Position 3 0, Position 4 0,
+    Position (-4) 0, Position (-3) 0, Position (-2) 0]
 
 main :: IO ()
 main = defaultMain tests
