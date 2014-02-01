@@ -70,7 +70,10 @@ tests =
             ==
             [ Position (-1)  0,
               Position   0   0,
-              Position   1   0 ] ) )
+              Position   1   0 ] ) ),
+        testCase "Overcrowding"
+        ( assert $ not $ isCellAlive (Position 0 0) $ nextGen $
+        universeWithLiveCells $ Position <$> [-1 .. 1] <*> [-1 .. 1] )
       ]
     ]
   ]
