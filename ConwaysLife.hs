@@ -1,7 +1,8 @@
 module ConwaysLife
-       (Universe (Universe),
+       (Universe,
         Position (Position),
         emptyUniverse,
+        universeWithLiveCells,
         liveCells,
         isCellAlive,
         setCellAlive,
@@ -26,6 +27,9 @@ isCellAlive pos (Universe cells) = Set.member pos cells
 
 setCellAlive :: Position -> Universe -> Universe
 setCellAlive pos (Universe cells) = Universe (Set.insert pos cells)
+
+universeWithLiveCells :: [Position] -> Universe
+universeWithLiveCells cellList = Universe $ Set.fromList cellList
 
 nextGen :: Universe -> Universe
 nextGen (Universe oldCells) =

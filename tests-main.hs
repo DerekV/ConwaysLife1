@@ -23,8 +23,8 @@ tests =
         testCase "A empty universe is created with no live cells"
         ( assert $ null $ liveCells emptyUniverse),
         testCase "A universe seeded with some cells has those cells as alive"
-        ( liveCells (Universe $ fromList [Position 0 1, Position 2 2 ])
-          @?= [Position 0 1, Position 2 2]),
+        ( ( liveCells $ universeWithLiveCells [ Position 0 1, Position 2 2 ] )
+         @?= [Position 0 1, Position 2 2]) ,
         testGroup "A position is defined by an ordered pair of integers"
         [
           testCase "origin = origin" ((Position 0 0) @=? (Position 0 0)),
@@ -51,34 +51,32 @@ tests =
       testGroup "Engine tests"
       [
         testCase "One cell at origin to no live cells"
-        ( assert $ null $ liveCells
-          ( nextGen $ setCellAlive (Position 0 0) emptyUniverse )),
+        ( assert $ null $ liveCells $ nextGen $ justOriginCellAlive ),
         testCase "Three seperated cells around origin to one at origin"
         ( assert
-          (
-            (liveCells $
-             nextGen $
-             setCellAlive (Position 0 1) $
-             setCellAlive (Position (-1) (-1)) $
-             setCellAlive (Position 1 (-1)) emptyUniverse
-            )
-            ==
-            (liveCells $ setCellAlive (Position 0 0) emptyUniverse )
-          )
-        ),
+          ( ( liveCells $
+            nextGen $
+            universeWithLiveCells [ Position   0    1,
+                                    Position (-1) (-1),
+                                    Position   1  (-1)  ] )
+          ==
+          ( liveCells $ justOriginCellAlive ))),
         testCase "Three vertically stacked yeilds three horizontally stacked"
         ( assert
-          ((liveCells $ nextGen $
-            setCellAlive (Position 0 1) $
-            setCellAlive (Position 0 0) $
-            setCellAlive (Position 0 (-1)) emptyUniverse)
-           ==
-           [(Position (-1) 0), (Position 0 0), (Position 1 0)]))
+          ( ( liveCells $ nextGen $
+              universeWithLiveCells [Position 0   1,
+                                     Position 0   0,
+                                     Position 0 (-1) ] )
+            ==
+            [ Position (-1)  0,
+              Position   0   0,
+              Position   1   0 ] ) )
       ]
     ]
   ]
 
-
+justOriginCellAlive :: Universe
+justOriginCellAlive = universeWithLiveCells [Position 0 0]
 
 pAllCellsDead :: Universe -> Position -> Bool
 pAllCellsDead universe position =
