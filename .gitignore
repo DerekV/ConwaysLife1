@@ -8,6 +8,7 @@ cabal-dev
 *.chi
 *.chs.h
 .virthualenv
+cabal.sandbox.config
 
 
 ### emacs ( https://github.com/github/gitignore.git ) 
